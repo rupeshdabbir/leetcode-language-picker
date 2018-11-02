@@ -7,6 +7,9 @@ Leetcode contests are *great* way to keep your programming skills sharp. They co
 # What does this script do?
 This script will add another section called "Language" that shows language choice used for the solution.
 
+![leetcode](https://image.ibb.co/n40KCf/Screen-Shot-2018-11-02-at-4-01-30-PM.png)
+![leetcode-gif](https://image.ibb.co/hFiQJL/ezgif-com-video-to-gif.gif)
+
 # Motivation:
 When I finished the contest, I wanted to check solutions of my programming language however, I didn't find an effective way rather than picking every solution and checking each one of them.
 
@@ -28,8 +31,8 @@ Installation:
 
 ```sh
 $ Go to https://tampermonkey.net and instal plugin.
-$ npm install -d
-$ node app
+$ download the script from repo.
+$ Go to tampermonkey settings and install the script.
 ```
 
 
