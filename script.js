@@ -43,7 +43,7 @@
     });
 
     /* 
-     * Heler to add Spinner on page. 
+     * Helper to add Spinner on page. 
      * Note: Once this component has been initialized, it'll stay on the page with
      * CSS display being 'none'. Thus, can be re-used without further DOM manipulation.
      * TODO: Refactor and move all the inline styling to CSS class.
