@@ -1,14 +1,14 @@
 // ==UserScript==
 // @name         New Userscript
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      1.0-stable
 // @description  try to take over the world! The primary aim of this script is to identify in what coding language the user has written the code. For v1, I only consider the first result.
 // @author       Rupesh Dabbir
 // @match        https://leetcode.com/contest/*/ranking/*
-// @grant        none
+// @grant        GM_addStyle
 // ==/UserScript==
 (function() {
-
+    /* Promisified Helper method that waits for a particular DOM elem to be loaded */
     const waitFor = (...selectors) => new Promise(resolve => {
         const delay = 500
         const f = () => {
@@ -22,84 +22,121 @@
         f()
     })
 
+    /* When Pagination has been clicked */
     waitFor('.pagination').then(([table]) => {
         $('.pagination').click(function() {
+            $('.td-lang-data').remove();
+            $('.td-my-data').remove();
+            $('.rupesh-loader').css('display', 'block');
             doAjax();
         });
     });
 
-    console.log("From TamperMonkey", $);
+    /* 
+     * When Table has been loaded, add the language barrier! ;-)
+     */
+
     waitFor('thead > tr').then(([table]) => {
-        console.log(table);
         $('thead > tr').append('<th> Language</th>');
+        addLoader();
         doAjax();
     });
+
+    /* 
+     * Heler to add Spinner on page. 
+     * Note: Once this component has been initialized, it'll stay on the page with
+     * CSS display being 'none'. Thus, can be re-used without further DOM manipulation.
+     * TODO: Refactor and move all the inline styling to CSS class.
+     */
+
+    function addLoader() {
+        $('tbody > tr').each(function(i) {
+            if (i > 0) {
+                const img = document.createElement('img');
+                img.src = "https://image.ibb.co/bLqPSf/Facebook-1s-200px.gif";
+                img.width = "50";
+                img.height = "50";
+                img.style = "margin-left: 10px";
+                img.classList.add("rupesh-loader");
+                $('tbody > tr')[i].append(img);
+            }
+        });
+    }
+
+    /* 
+     * @param AJAX with url.
+     * @returns JSON that contains ID's that can be further fetched to find Lang metadata.
+     */
 
     function doAjax() {
         const contextSuffix = window.location.href.split('/').filter((val) => val.indexOf('weekly-contest') > -1)[0];
         const page = window.location.href.split('ranking/')[1][0] ? window.location.href.split('ranking/')[1][0] : 1;
         const url = `https://leetcode.com/contest/api/ranking/${contextSuffix}/?pagination=${page}`;
-        console.log("Page is:", page);
-        console.info("url is:", url);
+        // console.log("You are on page:", page);
+        // console.info("The Url before making req:", url);
+
         fetch(url)
             .then((resp) => resp.json())
             .then(function(data) {
-                console.log("Results", data);
-                // Data is a JSON.
+                //console.log("Ranking API data return", data);
                 fetchSubmissionIDS(data);
             });
     }
 
     function fetchSubmissionIDS(data) {
         const ids = [];
+
         data.submissions.forEach((submission) => {
             const one = Object.values(submission)[0];
             const id = one.submission_id;
             ids.push(id);
         });
-        console.log("IDS are", ids);
+        //console.log("Submission ID's are: ", ids);
         fetchLanguageInfo(ids);
     }
 
     function doSyncCall(id) {
-      let url = 'https://leetcode.com/api/submissions/';
+        const url = 'https://leetcode.com/api/submissions/';
 
-      return new Promise((resolve, reject) => {
-        fetch(url + id).then(resp => resp.json()).then((data) => resolve(data.lang))
-      });
+        return new Promise((resolve, reject) => {
+            fetch(url + id).then(resp => resp.json()).then((data) => resolve(data.lang))
+        });
     }
+
+    /* 
+     * At this point, this function does the following:
+     * 1. It takes an array of ID's (leetcode submission ID)
+     * 2. Fetch respective metadata from the leetcode submission API.
+     * 3. Delegate the results to anther fxn to append to the DOM.
+     *
+     * Note: This is a promisified function that heavily relies on fetching data in sequence.
+     *       This is because the appropriate ID needs to be shown the correct language choice.
+     * TODO: Further optimization could be fetch everything async and maintain a running ID,
+     *       And append their respective results to the DOM.
+     */
 
     function fetchLanguageInfo(ids) {
         const languageArr = [];
-        // let url = 'https://leetcode.com/api/submissions/';
-        // let final = new Promise();
 
         ids.reduce((promise, id) => {
-          return promise.then((result) => {
-            return doSyncCall(id).then(val => {
-              languageArr.push(val);
-              // final.resolve();
+            return promise.then((result) => {
+                return doSyncCall(id).then(val => {
+                    languageArr.push(val);
+                });
             });
-          });
-        }, Promise.resolve()).then(() => {
-          console.log("LANGGG",languageArr);
-          appendLangToDOM(languageArr);
+        }, Promise.resolve()).then(() => { // TODDO: Optimize with promise.all/race
+            //console.log("Final Language Array: ", languageArr);
+            appendLangToDOM(languageArr);
         });
-
-        // Promise.all(ids.map(id =>
-        //     fetch(url + id).then(resp => resp.json()).then((data) => languageArr.push(data.lang))
-        // )).then(data => {
-        //     console.log("AFTER PROMISE ALL");
-        //     appendLangToDOM(languageArr);
-        // })
-
-        //console.log("Final Array with Languages", languageArr);
-        //appendLangToDOM(languageArr);
     }
+
+    /* 
+     * This method is currently deprecated. Thought of making this a helper method for something else.
+     */
 
     function makeCallAndFetchLanguage(id, arr) {
         const url = `https://leetcode.com/api/submissions/${id}`;
-        //console.info("Url to fetch Language(s):",url);
+
         fetch(url)
             .then((resp) => resp.json())
             .then(function(data) {
@@ -109,23 +146,28 @@
             });
     }
 
+    /* 
+     * It does exactly what it sounds like it does ;-)
+     */
+
     function appendLangToDOM(arr) {
-        console.log("==enter==");
-        console.log(arr);
-        const myTd = document.createElement('td');
-        myTd.innerHTML = "JS <3";
-        const domNode = $('.success').append(myTd);
-        const trs = Array.prototype.slice.call($('tbody > tr'));
-        $('.success')
         let j = 0;
-        //console.log("TR's", trs);
-        window.tr = trs;
+
+        // Hide the spinner.
+        $('.rupesh-loader').css('display', 'none');
+
+        // Append my submission.
+        const myTd = document.createElement('td');
+        myTd.innerHTML = "? (hehe)"; // TODO: Make it dynamic.
+        myTd.classList.add('td-my-data');
+        $('.success').append(myTd);
+
         $('tbody > tr').each(function(i) {
-            //console.log("Each Elem", $('tbody > tr')[i]);
             if (i > 0) {
                 const td = document.createElement('td');
                 //console.log("array JAKE", arr[j]);
                 td.innerHTML = arr[j];
+                td.classList.add('td-lang-data');
                 $('tbody > tr')[i].append(td);
                 j++;
             }
