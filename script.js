@@ -28,7 +28,9 @@
             $('.td-lang-data').remove();
             $('.td-my-data').remove();
             $('.rupesh-loader').css('display', 'block');
-            doAjax();
+            setTimeout(() => { // Time for window.location.href to update.
+                doAjax();
+            }, 1000);
         });
     });
 
