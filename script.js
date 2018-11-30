@@ -141,7 +141,10 @@
             const url = 'https://leetcode.com/api/submissions/';
 
             return new Promise((resolve, reject) => {
-                fetch(url + id).then(resp => resp.json()).then((data) => resolve(data.lang))
+                fetch(url + id)
+                    .then(resp => resp.json())
+                    .then((data) => resolve(data.lang))
+                    .catch((err) => resolve('N/A'));
             });
         }
 
