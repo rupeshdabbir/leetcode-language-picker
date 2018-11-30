@@ -4,10 +4,14 @@
 // @version      1.2
 // @description  try to take over the world! The primary aim of this script is to identify in what coding language the user has written the code. For v1, I only consider the first result.
 // @author       Rupesh Dabbir
+// @license      MIT
 // @include      https://leetcode.com/contest/*/ranking/*
 // @include      https://leetcode.com/contest/*
 // @match        https://leetcode.com/contest/weekly-contest-*/ranking*/*
 // @grant        GM_addStyle
+// @grant        GM_xmlhttpRequest
+// @updateURL    https://raw.githubusercontent.com/rupeshdabbir/leetcode-language-picker/master/script.js
+// @downloadURL  https://raw.githubusercontent.com/rupeshdabbir/leetcode-language-picker/master/script.js
 // ==/UserScript==
 (function() {
 
