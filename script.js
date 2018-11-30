@@ -144,7 +144,8 @@
                 fetch(url + id)
                     .then(resp => resp.json())
                     .then((data) => resolve(data.lang))
-                    .catch((err) => resolve('N/A'));
+                    .catch((err) => resolve('N/A')); // TODO: Maybe retry promise after xx ms?
+                                                    // Currently we are resolving the promise && proceeding.
             });
         }
 
