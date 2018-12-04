@@ -35,6 +35,8 @@ $ download the script from repo.
 $ Go to tampermonkey settings and install the script.
 ```
 
+Go to this url: https://greasyfork.org/en/scripts/375145-leetcode-contest-language-reavealer
+Click "Install Script" and there you go!
 
 
 ### Development
