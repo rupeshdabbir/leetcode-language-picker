@@ -27,14 +27,16 @@ When I finished the contest, I wanted to check solutions of my programming langu
 
 This script requires TamperMonkey installed on your browser [TamperMonkey](https://tampermonkey.net) (Stable Preferred)
 
-Installation:
+Installation: 
 
 ```sh
 $ Go to https://tampermonkey.net and install plugin.
-$ Install the script from here: https://greasyfork.org/en/scripts/375145-leetcode-contest-language-reavealer
+$ Install the script from here:[Install](https://greasyfork.org/en/scripts/375145-leetcode-contest-language-reavealer)
 $ Click on "Install Script"
 $ Go to Leetcode contest page: https://leetcode.com/contest/ pick any contest and clicking on "More" will show their respective programming language.
 ```
+
+If you have tampermonkey plugin already installed [CLICK HERE](https://greasyfork.org/en/scripts/375145-leetcode-contest-language-reavealer)
 
 
 ### Development
