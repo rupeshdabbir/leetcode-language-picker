@@ -5,6 +5,7 @@
 // @description  The primary aim of this script is to identify in what coding language the user has written the code. For v1, I only consider the first result.
 // @author       Rupesh Dabbir
 // @license      MIT
+// @namespace   https://github.com/rupeshdabbir
 // @include      https://leetcode.com/contest/*/ranking/*
 // @include      https://leetcode.com/contest/*
 // @match        https://leetcode.com/contest/weekly-contest-*/ranking*/*
