@@ -9,15 +9,8 @@
 // @include      https://leetcode.com/contest/*/ranking/*
 // @include      https://leetcode.com/contest/*
 // @match        https://leetcode.com/contest/weekly-contest-*/ranking*/*
-// @include      https://github.com/*
-// @include      https://gist.github.com/*
-// @grant        GM_registerMenuCommand
-// @grant        GM_getValue
-// @grant        GM_setValue
-// @run-at       document-idle
 // @grant        GM_addStyle
 // @grant        GM_xmlhttpRequest
-// @require      https://greasyfork.org/scripts/28721-mutations/code/mutations.js?version=634242
 // @updateURL    https://raw.githubusercontent.com/rupeshdabbir/leetcode-language-picker/master/script.js
 // @downloadURL  https://raw.githubusercontent.com/rupeshdabbir/leetcode-language-picker/master/script.js
 // ==/UserScript==
