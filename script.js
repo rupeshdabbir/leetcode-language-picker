@@ -5,7 +5,7 @@
 // @description  The primary aim of this script is to identify in what coding language the user has written the code. For v1, I only consider the first result.
 // @author       Rupesh Dabbir
 // @license      MIT
-// @namespace   https://github.com/rupeshdabbir
+// @namespace    https://github.com/rupeshdabbir
 // @include      https://leetcode.com/contest/*/ranking/*
 // @include      https://leetcode.com/contest/*
 // @match        https://leetcode.com/contest/weekly-contest-*/ranking*/*
@@ -17,6 +17,7 @@
 // @run-at       document-idle
 // @grant        GM_addStyle
 // @grant        GM_xmlhttpRequest
+// @require      https://greasyfork.org/scripts/28721-mutations/code/mutations.js?version=634242
 // @updateURL    https://raw.githubusercontent.com/rupeshdabbir/leetcode-language-picker/master/script.js
 // @downloadURL  https://raw.githubusercontent.com/rupeshdabbir/leetcode-language-picker/master/script.js
 // ==/UserScript==
