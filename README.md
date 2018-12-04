@@ -30,13 +30,11 @@ This script requires TamperMonkey installed on your browser [TamperMonkey](https
 Installation:
 
 ```sh
-$ Go to https://tampermonkey.net and instal plugin.
-$ download the script from repo.
-$ Go to tampermonkey settings and install the script.
+$ Go to https://tampermonkey.net and install plugin.
+$ Install the script from here: https://greasyfork.org/en/scripts/375145-leetcode-contest-language-reavealer
+$ Click on "Install Script"
+$ Go to Leetcode contest page: https://leetcode.com/contest/ pick any contest and clicking on "More" will show their respective programming language.
 ```
-
-Go to this url: https://greasyfork.org/en/scripts/375145-leetcode-contest-language-reavealer
-Click "Install Script" and there you go!
 
 
 ### Development
