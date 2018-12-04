@@ -10,6 +10,7 @@
 // @match        https://leetcode.com/contest/weekly-contest-*/ranking*/*
 // @include      https://github.com/*
 // @include      https://gist.github.com/*
+// @grant       GM_registerMenuCommand
 // @run-at       document-idle
 // @grant        GM_addStyle
 // @grant        GM_xmlhttpRequest
