@@ -214,13 +214,17 @@
             $('.rupesh-loader').css('display', 'none');
 
             // Append my submission.
-            const myTd = document.createElement('td');
-            myTd.innerHTML = "? (hehe)"; // TODO: Make it dynamic.
-            myTd.classList.add('td-my-data');
-            $('.success').append(myTd);
+            let startIndex = 0
+            if ($("tbody").find(".success").length > 0) {
+                const myTd = document.createElement('td');
+                myTd.innerHTML = "You surely know it !!!"; // TODO: Make it dynamic.
+                myTd.classList.add('td-my-data');
+                $('.success').append(myTd);
+                startIndex = 1
+            }
 
             $('tbody > tr').each(function(i) {
-                if (i >= 0) {
+                if (i >= startIndex) {
                     const td = document.createElement('td');
                     //console.log("array JAKE", arr[j]);
                     td.innerHTML = arr[j];
