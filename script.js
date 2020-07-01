@@ -11,8 +11,6 @@
 // @match        https://leetcode.com/contest/weekly-contest-*/ranking*/*
 // @grant        GM_addStyle
 // @grant        GM_xmlhttpRequest
-// @updateURL    https://raw.githubusercontent.com/rupeshdabbir/leetcode-language-picker/master/script.js
-// @downloadURL  https://raw.githubusercontent.com/rupeshdabbir/leetcode-language-picker/master/script.js
 // ==/UserScript==
 (function() {
 
@@ -87,7 +85,7 @@
 
         function addLoader() {
             $('tbody > tr').each(function(i) {
-                if (i > 0) {
+                if (i >= 0) {
                     const img = document.createElement('img');
                     img.src = "https://image.ibb.co/bLqPSf/Facebook-1s-200px.gif";
                     img.width = "50";
@@ -131,24 +129,31 @@
         }
 
         function fetchSubmissionIDS(data) {
-            const ids = [];
+            const submissions = [];
 
-            data.submissions.forEach((submission) => {
+            data.submissions.forEach((submission, index) => {
                 const one = Object.values(submission)[0];
                 const id = one.submission_id;
-                ids.push(id);
+                submissions.push({id, country: data.total_rank[index].data_region });
             });
             //console.log("Submission ID's are: ", ids);
-            fetchLanguageInfo(ids);
+            fetchLanguageInfo(submissions);
         }
 
-        function doSyncCall(id) {
-            const url = 'https://leetcode.com/api/submissions/';
+        function doSyncCall(id, country) {
+            let url = ''
+            if (country === 'CN') {
+                url = 'https://leetcode-cn.com/api/submissions/';
+            } else {
+                url = 'https://leetcode.com/api/submissions/';
+            }
 
             return new Promise((resolve, reject) => {
                 fetch(url + id)
                     .then(resp => resp.json())
-                    .then((data) => resolve(data.lang))
+                    .then((data) => {
+                      return resolve(data.lang)
+                    })
                     .catch((err) => resolve('N/A')); // TODO: Maybe retry promise after xx ms?
                                                     // Currently we are resolving the promise && proceeding.
             });
@@ -166,12 +171,13 @@
          *       And append their respective results to the DOM.
          */
 
-        function fetchLanguageInfo(ids) {
+        function fetchLanguageInfo(submissions) {
             const languageArr = [];
 
-            ids.reduce((promise, id) => {
+            submissions.reduce((promise, submission) => {
+                const {id, country} = submission
                 return promise.then((result) => {
-                    return doSyncCall(id).then(val => {
+                    return doSyncCall(id, country).then(val => {
                         languageArr.push(val);
                     });
                 });
@@ -214,7 +220,7 @@
             $('.success').append(myTd);
 
             $('tbody > tr').each(function(i) {
-                if (i > 0) {
+                if (i >= 0) {
                     const td = document.createElement('td');
                     //console.log("array JAKE", arr[j]);
                     td.innerHTML = arr[j];
